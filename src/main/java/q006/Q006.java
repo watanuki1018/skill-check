@@ -1,11 +1,17 @@
 package q006;
 
 import q006.value.DecimalValue;
+import q006.value.DivideValue;
 import q006.value.IValue;
+import q006.value.MinusValue;
+import q006.value.MultipleValue;
 import q006.value.PlusValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.math.BigDecimal;
+import java.util.Stack;
 
 /**
  * Q006 空気を読んで改修
@@ -43,6 +49,15 @@ public class Q006 {
                 case "+":   // 足し算
                     resultList.add(new PlusValue());
                     break;
+                case "-":
+                    resultList.add(new MinusValue());
+                    break;
+                case "*":
+                    resultList.add(new MultipleValue());
+                    break;
+                case "/":
+                    resultList.add(new DivideValue());
+                    break;
                 default:    // その他は数値として扱う
                     resultList.add(new DecimalValue(text));
                     break;
@@ -50,5 +65,20 @@ public class Q006 {
         }
         return resultList;
     }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine();
+        // String input = "3 1.1 0.9 + 2.0 * -";
+        scan.close();
+
+        List<IValue> resultList = parseLine(input);
+        Stack<BigDecimal> values = new Stack<BigDecimal>();
+        for (IValue result : resultList) {
+            result.execute(values);
+        }
+
+        System.out.println(values.pop());
+    }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: xx時間 10分

@@ -1,6 +1,10 @@
 package q003;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.TreeMap;
 
 /**
  * Q003 集計と並べ替え
@@ -33,5 +37,50 @@ public class Q003 {
     private static InputStream openDataFile() {
         return Q003.class.getResourceAsStream("data.txt");
     }
+
+    public static void main(String[] args) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(openDataFile()));
+        TreeMap<String, Integer> map = new TreeMap<String, Integer>();
+
+        try {
+            analyzeData(br, map);
+        } catch (IOException ex) {
+            System.out.println("error");
+            return;
+        }
+
+        for (String key : map.keySet()) {
+            System.out.println(key + "=" + map.get(key));
+        }
+    }
+
+    private static String[] splitData(String str) {
+        return str.split("[,|\\.|;]\s*|\s", 0);
+    }
+
+    private static void analyzeData(BufferedReader br, TreeMap<String, Integer> map) throws IOException {
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            String[] splitStr = splitData(line);
+            for (String word : splitStr) {
+                if (word.equals("")) {
+                    continue;
+                }
+
+                if (!word.equals("I")) {
+                    word = word.toLowerCase();
+                }
+
+                int count = 0;
+                if (map.get(word) != null) {
+                    count = map.get(word);
+                }
+
+                count++;
+                map.put(word, count);
+            }
+        }
+    }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 2時間

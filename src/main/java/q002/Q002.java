@@ -1,5 +1,10 @@
 package q002;
 
+import java.util.Comparator;
+import java.util.Collections;
+import java.util.List;
+import java.util.Arrays;
+
 /**
  * Q002 並べ替える
  *
@@ -45,5 +50,24 @@ public class Q002 {
             "14,林",
             "9,清水"
     };
+
+    public static void main(String[] args) {
+        Comparator<String> compareRule = definedCompareRule();
+
+        List<String> sortList = Arrays.asList(dataList);
+        Collections.sort(sortList, compareRule);
+        sortList.forEach(System.out::println);
+    }
+
+    public static Comparator<String> definedCompareRule() {
+        return new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return Integer.compare(
+                    Integer.parseInt(o1.split(",", 0)[0]),
+                    Integer.parseInt(o2.split(",", 0)[0])
+                );
+            }
+        };
+    }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 20分
